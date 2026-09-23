@@ -63,7 +63,7 @@
       border: none;
       border-radius: 25px;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: transform 0.15s ease-out;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       display: inline-flex;
       align-items: center;
@@ -83,8 +83,6 @@
     .btn-no {
       background-color: #dc3545;
       color: white;
-      position: absolute;
-      transition: all 0.15s ease-out;
       touch-action: manipulation;
     }
 
@@ -334,7 +332,7 @@
     <div id="step-phone-rule" class="hidden">
       <h2>ডেটের দিন কিন্তু মোবাইল চালানো যাবে না! সম্মতি আছেন? 📱🚫</h2>
       <div class="btn-group" style="margin-top: 20px;">
-        <button class="btn btn-yes" onclick="finishDate()">হ্যাঁ согласен 😇</button>
+        <button class="btn btn-yes" onclick="finishDate()">হ্যাঁ রাজি 😇</button>
         <button class="btn btn-yes" onclick="finishDate()">হ্যাঁ রাজি! 🥰</button>
       </div>
     </div>
@@ -354,7 +352,6 @@
   <script>
     let noAttempts = 0;
     const noBtn = document.getElementById('no-btn');
-    const container = document.getElementById('btn-container');
 
     let isMyOutfitDone = false;
     let herOutfitNoCount = 0;
@@ -376,11 +373,11 @@
       else if (noAttempts >= 6) {
         noBtn.innerHTML = "Yes 😊";
         noBtn.className = "btn btn-yes";
-        noBtn.style.position = "static";
+        noBtn.style.transform = "none";
         noBtn.onclick = function() { goToStep(2); };
         return;
       }
-      const maxX = 120, maxY = 100;
+      const maxX = 100, maxY = 80;
       const randomX = (Math.random() - 0.5) * maxX * 2;
       const randomY = (Math.random() - 0.5) * maxY * 2;
       noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
