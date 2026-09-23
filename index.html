@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Would You Go On A Date With Me? ❤️</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+      overflow-x: hidden;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      padding: 25px 20px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      text-align: center;
+      position: relative;
+      min-height: 400px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    h2 {
+      color: #d63384;
+      font-size: 20px;
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      position: relative;
+      margin-top: 20px;
+      min-height: 60px;
+    }
+
+    .btn {
+      padding: 12px 20px;
+      font-size: 15px;
+      font-weight: bold;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-yes {
+      background-color: #28a745;
+      color: white;
+    }
+
+    .btn-yes:active {
+      transform: scale(0.95);
+    }
+
+    .btn-no {
+      background-color: #dc3545;
+      color: white;
+      position: absolute;
+      transition: all 0.15s ease-out;
+      touch-action: manipulation;
+    }
+
+    .input-group {
+      width: 100%;
+      text-align: left;
+      margin-bottom: 15px;
+    }
+
+    .input-group label {
+      display: block;
+      color: #555;
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .input-group input, .input-group select {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #ffb6c1;
+      border-radius: 10px;
+      outline: none;
+      font-size: 15px;
+      background: #fff;
+    }
+
+    .grid-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .option-card {
+      background: #fff0f5;
+      border: 2px solid #ffb6c1;
+      border-radius: 15px;
+      padding: 15px 10px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+      color: #d63384;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .option-card:active {
+      background: #ff69b4;
+      color: white;
+      transform: scale(0.96);
+    }
+
+    .option-card span {
+      font-size: 24px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .summary-box {
+      text-align: left;
+      width: 100%;
+      background: #fff5f7;
+      padding: 15px;
+      border-radius: 12px;
+      border: 1px dashed #ff69b4;
+      margin-top: 15px;
+      line-height: 1.8;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .warning-text {
+      color: #dc3545;
+      font-size: 13px;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    
+    <!-- Step 1: Proposal Screen -->
+    <div id="step-1">
+      <h2>Would you like to go on a date with me? ❤️</h2>
+      <div class="btn-group" id="btn-container">
+        <button class="btn btn-yes" onclick="goToStep(2)">Yes 😊</button>
+        <button class="btn btn-no" id="no-btn">No 😭</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Date, Day & Time Selection -->
+    <div id="step-2" class="hidden">
+      <h2>Select Date & Time 📅</h2>
+      <div class="input-group">
+        <label for="day-select">Select Day:</label>
+        <select id="day-select">
+          <option>Saturday</option>
+          <option>Sunday</option>
+          <option>Monday</option>
+          <option>Tuesday</option>
+          <option>Wednesday</option>
+          <option>Thursday</option>
+          <option>Friday</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label for="date-input">Select Date:</label>
+        <input type="date" id="date-input">
+      </div>
+      <div class="input-group">
+        <label for="time-input">Select Time:</label>
+        <input type="time" id="time-input">
+      </div>
+      <button class="btn btn-yes" style="width:100%; margin-top:10px;" onclick="saveDateTime()">Next ➡️</button>
+    </div>
+
+    <!-- Step 3: Location Selection -->
+    <div id="step-3" class="hidden">
+      <h2>কোথায় যেতে চাও? 📍</h2>
+      <div class="grid-options">
+        <div class="option-card" onclick="selectLocation('রেস্টুরেন্ট', '🍽️')">
+          <span>🍽️</span> রেস্টুরেন্ট
+        </div>
+        <div class="option-card" onclick="selectLocation('নদীর পাড়', '🌊')">
+          <span>🌊</span> নদীর পাড়
+        </div>
+        <div class="option-card" onclick="selectLocation('ভোলা নদীর পাড়', '🏝️')">
+          <span>🏝️</span> ভোলা নদীর পাড়
+        </div>
+        <div class="option-card" onclick="selectLocation('সরকারি স্কুলের পাশের পার্ক', '🌳')">
+          <span>🌳</span> সরকারি স্কুলের পাশের পার্ক
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3.5: Transport Selection -->
+    <div id="step-transport" class="hidden">
+      <h2>কিসে করে যাবে? 🛵</h2>
+      <div class="grid-options">
+        <div class="option-card" onclick="selectTransport('বাইক', '🏍️')">
+          <span>🏍️</span> বাইকে
+        </div>
+        <div class="option-card" onclick="selectTransport('রিকশা', '🛺')">
+          <span>🛺</span> রিকশাতে
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4: Main Outfit Selection Hub -->
+    <div id="step-outfit-main" class="hidden">
+      <h2>আউটফিট সিলেক্ট করো 👗👔</h2>
+      <div class="grid-options">
+        <div class="option-card" id="my-outfit-card" onclick="openMyOutfit()">
+          <span>👔</span> আমার আউটফিট <br><small id="my-outfit-status" style="color:gray;">(সিলেক্ট করো)</small>
+        </div>
+        <div class="option-card" id="her-outfit-card" onclick="openHerOutfit()">
+          <span>👗</span> তোমার আউটফিট <br><small id="her-outfit-status" style="color:gray;">(বাকি আছে)</small>
+        </div>
+      </div>
+      <p id="outfit-warning" class="warning-text hidden">আগে আমার আউটফিট সিলেক্ট করো, তারপর তোমারটা! 😉</p>
+    </div>
+
+    <!-- Step 4.1: My Outfit Options -->
+    <div id="step-my-outfit" class="hidden">
+      <h2>আমি কী পরবো? 👔</h2>
+      <div class="grid-options" style="grid-template-columns: 1fr;">
+        <div class="option-card" onclick="selectMyOutfit('White Shirt & Black Pant 👔🖤')">White Shirt & Black Pant</div>
+        <div class="option-card" onclick="selectMyOutfit('White Pant & Black Shirt 🖤⚪')">White Pant & Black Shirt</div>
+        <div class="option-card" onclick="selectMyOutfit('Black Pant & T-Shirt 👕')">Black Pant & T-Shirt</div>
+        <div class="option-card" onclick="showCustomOutfitInput()">সম্পূর্ণ তোমার মন মতো করে সাজাও ✍️</div>
+      </div>
+
+      <!-- Custom Outfit Textbox Option -->
+      <div id="custom-outfit-box" class="input-group hidden" style="margin-top: 15px;">
+        <label for="custom-outfit-input">তোমার পছন্দ অনুযায়ী লিখে দাও:</label>
+        <input type="text" id="custom-outfit-input" placeholder="যেমন: নীল শার্ট ও কালো প্যান্ট...">
+        <button class="btn btn-yes" style="width:100%; margin-top:10px;" onclick="saveCustomOutfit()">Confirm ➡️</button>
+      </div>
+
+      <button id="my-outfit-next-btn" class="btn btn-yes hidden" style="width:100%; margin-top:15px;" onclick="proceedToHerOutfit()">Next ➡️</button>
+    </div>
+
+    <!-- Step 4.2: Her Outfit Choice -->
+    <div id="step-her-outfit" class="hidden">
+      <h2>তোমার ড্রেস কিন্তু আমি পছন্দ করে দেবো! রাজি? 👗🥰</h2>
+      <div class="btn-group" style="margin-top: 25px;">
+        <button class="btn btn-yes" onclick="agreeHerOutfit()">হ্যাঁ 😊</button>
+        <button class="btn btn-no" id="her-outfit-no-btn" style="position:static;" onclick="denyHerOutfit()">না 😜</button>
+      </div>
+    </div>
+
+    <!-- Step 5: Food Selection -->
+    <div id="step-food" class="hidden">
+      <h2>কী খেতে পছন্দ করবে? 😋</h2>
+      <div class="grid-options" id="food-grid">
+        <div class="option-card" onclick="selectFood('Burger 🍔')"><span>🍔</span> Burger</div>
+        <div class="option-card" onclick="selectFood('Noodles 🍜')"><span>🍜</span> Noodles</div>
+        <div class="option-card" onclick="selectFood('Soup 🥣')"><span>🥣</span> Soup</div>
+        <div class="option-card" onclick="selectFood('Fuchka 🥣')"><span>🥣</span> Fuchka</div>
+        <div class="option-card" onclick="selectFood('Shawarma 🌯')"><span>🌯</span> Shawarma</div>
+        <div class="option-card" onclick="selectFood('Fried Rice 🍚')"><span>🍚</span> Fried Rice</div>
+      </div>
+      <div class="option-card" id="eat-me-btn" style="margin-top: 12px; width: 100%;" onclick="triggerEatMe()">
+        <span>🤭</span> আমায় 🥰
+      </div>
+    </div>
+
+    <!-- Step 5.1: Eat Me Extra Fee Screen -->
+    <div id="step-eat-me-fee" class="hidden">
+      <h2>আমাকে খেতে হলে এক্সট্রা ফি দেওয়া লাগবে! 🤫</h2>
+      <button class="btn btn-yes" style="margin-top:20px;" onclick="showKissFee()">ফি জানতে চান? 🎁</button>
+    </div>
+
+    <!-- Step 6: Mood Selection -->
+    <div id="step-mood" class="hidden">
+      <h2>আজকে তোমার মুড কেমন? 🤔</h2>
+      <div class="grid-options">
+        <div class="option-card" onclick="selectMood('ভালো 😊')">
+          <span>😊</span> ভালো
+        </div>
+        <div class="option-card" onclick="selectMood('খারাপ 😤')">
+          <span>😤</span> খারাপ
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 7: Money Request -->
+    <div id="step-money" class="hidden">
+      <h2 id="money-title">৫০০ টাকা নিয়ে এসো, আমার কাছে টাকা কম আছে। নিয়ে আসবা তো? 💸</h2>
+      <p id="money-warning" class="warning-text hidden"></p>
+      <div class="btn-group" style="margin-top: 20px;">
+        <button class="btn btn-yes" onclick="agreeMoney()">হ্যাঁ 😇</button>
+        <button class="btn btn-no" id="money-no-btn" style="position:static;" onclick="denyMoney()">না 😜</button>
+      </div>
+    </div>
+
+    <!-- Step 8: No Phone Rule -->
+    <div id="step-phone-rule" class="hidden">
+      <h2>ডেটের দিন কিন্তু মোবাইল চালানো যাবে না! সম্মতি আছেন? 📱🚫</h2>
+      <div class="btn-group" style="margin-top: 20px;">
+        <button class="btn btn-yes" onclick="finishDate()">হ্যাঁ согласен 😇</button>
+        <button class="btn btn-yes" onclick="finishDate()">হ্যাঁ রাজি! 🥰</button>
+      </div>
+    </div>
+
+    <!-- Step 9: Final Screen -->
+    <div id="step-final" class="hidden">
+      <h2>I Love You জানু! ❤️🥰</h2>
+      <p style="color: #666; font-size: 14px; margin-top: 5px;">আমাদের সম্পূর্ণ প্ল্যান:</p>
+      
+      <div class="summary-box" id="summary-content"></div>
+      
+      <p style="margin-top: 15px; color: #d63384; font-weight: bold;">Can't wait for our special date! 💋✨</p>
+    </div>
+
+  </div>
+
+  <script>
+    let noAttempts = 0;
+    const noBtn = document.getElementById('no-btn');
+    const container = document.getElementById('btn-container');
+
+    let isMyOutfitDone = false;
+    let herOutfitNoCount = 0;
+    let moneyNoCount = 0;
+    let currentMoneyAmount = 500;
+
+    let datePlan = {
+      day: '', date: '', time: '',
+      location: '', transport: 'প্রযোজ্য নয়',
+      myOutfit: '', herOutfit: 'তুমি পছন্দ করে দেবে 🥰',
+      food: '', mood: '',
+      kissFee: 'না', moneyAmount: '৫০০ টাকা'
+    };
+
+    function moveNoButton() {
+      noAttempts++;
+      if (noAttempts === 4) noBtn.innerHTML = "Are you serious? 🤨";
+      else if (noAttempts === 5) noBtn.innerHTML = "Please don't say no! 🥺";
+      else if (noAttempts >= 6) {
+        noBtn.innerHTML = "Yes 😊";
+        noBtn.className = "btn btn-yes";
+        noBtn.style.position = "static";
+        noBtn.onclick = function() { goToStep(2); };
+        return;
+      }
+      const maxX = 120, maxY = 100;
+      const randomX = (Math.random() - 0.5) * maxX * 2;
+      const randomY = (Math.random() - 0.5) * maxY * 2;
+      noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+    }
+
+    noBtn.addEventListener('touchstart', function(e) { if (noAttempts < 6) { e.preventDefault(); moveNoButton(); } });
+    noBtn.addEventListener('mouseover', function() { if (noAttempts < 6) moveNoButton(); });
+
+    function goToStep(stepId) {
+      document.querySelectorAll('.card > div').forEach(div => div.classList.add('hidden'));
+      if (typeof stepId === 'number') {
+        document.getElementById(`step-${stepId}`).classList.remove('hidden');
+      } else {
+        document.getElementById(stepId).classList.remove('hidden');
+      }
+    }
+
+    function saveDateTime() {
+      datePlan.day = document.getElementById('day-select').value;
+      datePlan.date = document.getElementById('date-input').value || 'সিলেক্ট করা হয়নি';
+      datePlan.time = document.getElementById('time-input').value || 'সিলেক্ট করা হয়নি';
+      goToStep(3);
+    }
+
+    function selectLocation(locName, emoji) {
+      datePlan.location = `${locName} ${emoji}`;
+      if (locName === 'নদীর পাড়' || locName === 'ভোলা নদীর পাড়') {
+        goToStep('step-transport');
+      } else {
+        datePlan.transport = 'প্রযোজ্য নয়';
+        goToStep('step-outfit-main');
+      }
+    }
+
+    function selectTransport(transName, emoji) {
+      datePlan.transport = `${transName} ${emoji}`;
+      goToStep('step-outfit-main');
+    }
+
+    // Outfit Handlers
+    function openMyOutfit() {
+      document.getElementById('outfit-warning').classList.add('hidden');
+      goToStep('step-my-outfit');
+    }
+
+    function openHerOutfit() {
+      if (!isMyOutfitDone) {
+        document.getElementById('outfit-warning').classList.remove('hidden');
+      } else {
+        goToStep('step-her-outfit');
+      }
+    }
+
+    function setMyOutfitCompleted(outfitText) {
+      datePlan.myOutfit = outfitText;
+      isMyOutfitDone = true;
+      document.getElementById('my-outfit-status').innerHTML = "✔️ (সম্পন্ন)";
+      document.getElementById('my-outfit-status').style.color = "green";
+      document.getElementById('her-outfit-status').innerText = "(এখন সিলেক্ট করো)";
+      document.getElementById('her-outfit-status').style.color = "#d63384";
+      document.getElementById('my-outfit-next-btn').classList.remove('hidden');
+    }
+
+    function selectMyOutfit(outfit) {
+      document.getElementById('custom-outfit-box').classList.add('hidden');
+      setMyOutfitCompleted(outfit);
+    }
+
+    function showCustomOutfitInput() {
+      document.getElementById('custom-outfit-box').classList.remove('hidden');
+    }
+
+    function saveCustomOutfit() {
+      const val = document.getElementById('custom-outfit-input').value.trim();
+      if (val !== "") {
+        setMyOutfitCompleted(val + " 🎨");
+      } else {
+        alert("অনুগ্রহ করে কিছু লিখুন!");
+      }
+    }
+
+    function proceedToHerOutfit() {
+      goToStep('step-her-outfit');
+    }
+
+    function denyHerOutfit() {
+      herOutfitNoCount++;
+      const herNoBtn = document.getElementById('her-outfit-no-btn');
+      
+      if (herOutfitNoCount === 1) {
+        herNoBtn.innerText = "এই! খারাপ হবে কিন্তু! 😤";
+      } else if (herOutfitNoCount === 2) {
+        herNoBtn.innerText = "পিটানি খাবা কিন্তু! 👊😏";
+      } else if (herOutfitNoCount === 3) {
+        herNoBtn.innerText = "এবার কিন্তু খবর আছে! 😈";
+      } else if (herOutfitNoCount >= 4) {
+        herNoBtn.style.display = "none";
+      }
+    }
+
+    function agreeHerOutfit() {
+      datePlan.herOutfit = "তুমি পছন্দ করে দেবে 🥰";
+      goToStep('step-food');
+    }
+
+    // Food & Eat Me Handlers
+    function selectFood(foodName) {
+      datePlan.food = foodName;
+      goToStep('step-mood');
+    }
+
+    function triggerEatMe() {
+      goToStep('step-eat-me-fee');
+    }
+
+    function showKissFee() {
+      alert("আমাকে খেতে হলে ৫০০ টা চুমা (Kiss) দেওয়া লাগবে! 💋😘");
+      datePlan.kissFee = '৫০০ টা চুমা 💋';
+      document.getElementById('eat-me-btn').classList.add('hidden');
+      goToStep('step-food');
+    }
+
+    // Mood Handler
+    function selectMood(mood) {
+      datePlan.mood = mood;
+      if (mood === 'খারাপ 😤') {
+        alert("এই নাও এক গ্লাস পানি 🥛 খেয়ে মাথা ঠান্ডা করো!");
+      }
+      goToStep('step-money');
+    }
+
+    // Money Handlers
+    function denyMoney() {
+      moneyNoCount++;
+      const warningText = document.getElementById('money-warning');
+      const title = document.getElementById('money-title');
+      const moneyNoBtn = document.getElementById('money-no-btn');
+
+      warningText.classList.remove('hidden');
+
+      if (moneyNoCount === 1) {
+        warningText.innerText = "আবার না চাপলে টাকা ডাবল হয়ে যাবে! ⚠️";
+      } else if (moneyNoCount === 2) {
+        currentMoneyAmount = 1000;
+        title.innerText = "১০০০ টাকা নিয়ে এসো। নিয়ে আসবা তো? 💸";
+        warningText.innerText = "আবার না চাপলে ২০০০ টাকা হয়ে যাবে! 😈";
+      } else if (moneyNoCount >= 3) {
+        currentMoneyAmount = 2000;
+        title.innerText = "এখন ২০০০ টাকা নিয়ে আসতে হবে! 💸";
+        warningText.innerText = "আর কোনো 'না' অপশন নাই! 😜";
+        moneyNoBtn.style.display = "none";
+      }
+    }
+
+    function agreeMoney() {
+      datePlan.moneyAmount = `${currentMoneyAmount} টাকা`;
+      goToStep('step-phone-rule');
+    }
+
+    // Final Summary
+    function finishDate() {
+      goToStep('step-final');
+      const summaryBox = document.getElementById('summary-content');
+      
+      summaryBox.innerHTML = `
+        <strong>📆 বার:</strong> ${datePlan.day}<br>
+        <strong>📅 তারিখ:</strong> ${datePlan.date}<br>
+        <strong>⏰ সময়:</strong> ${datePlan.time}<br>
+        <strong>📍 স্থান:</strong> ${datePlan.location}<br>
+        ${datePlan.transport !== 'প্রযোজ্য নয়' ? `<strong>🛵 বাহন:</strong> ${datePlan.transport}<br>` : ''}
+        <strong>👔 আমার ড্রেস:</strong> ${datePlan.myOutfit}<br>
+        <strong>👗 তোমার ড্রেস:</strong> ${datePlan.herOutfit}<br>
+        <strong>🍔 খাবার:</strong> ${datePlan.food}<br>
+        ${datePlan.kissFee !== 'না' ? `<strong>💋 বিশেষ ফি:</strong> ${datePlan.kissFee}<br>` : ''}
+        <strong>💸 বাজেট:</strong> ${datePlan.moneyAmount}<br>
+        <strong>📱 নিয়ম:</strong> নো ফোন অন ডেট (সম্মত)
+      `;
+    }
+  </script>
+</body>
+</html>
